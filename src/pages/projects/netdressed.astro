@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Netdressed — Multi-vendor inventory sync | Umar Ehtisham">
+  <div class="wrap" style="max-width: 680px;">
+
+    <a href="/#projects" class="back-link" style="margin-top: 24px;">&larr; Back to projects</a>
+
+    <div class="project-header">
+      <p class="eyebrow">Orchestration · n8n</p>
+      <h1>Multi-vendor inventory sync</h1>
+      <p class="client">Netdressed — a US-based Shopify dropshipping store</p>
+    </div>
+
+    <div class="project-body">
+      <h3>The problem</h3>
+      <p>Netdressed sourced products from 5 different vendors and resold them via Shopify. Because vendor stock, pricing, and product data weren't synced in real time, the store was selling products that were actually out of stock — a direct hit to customer trust and fulfillment in a drop shipping model, where the seller doesn't control inventory directly.</p>
+
+      <h3>Architecture</h3>
+      <svg width="100%" height="170" viewBox="0 0 700 170" role="img" aria-label="Flow diagram: vendor feed and Shopify state feed into a diff and transform step, which fans out to three parallel preprocessing sub-workflows, then merges into a Shopify GraphQL upload">
+        <line x1="130" y1="38" x2="210" y2="80" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="130" y1="122" x2="210" y2="80" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="350" y1="80" x2="430" y2="26" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="350" y1="80" x2="430" y2="80" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="350" y1="80" x2="430" y2="134" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="550" y1="26" x2="610" y2="80" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="550" y1="80" x2="610" y2="80" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="550" y1="134" x2="610" y2="80" stroke="#3A3D45" stroke-width="1"/>
+
+        <rect x="10" y="20" width="120" height="36" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="70" y="42" text-anchor="middle" fill="#9AA0AC" font-family="JetBrains Mono, monospace" font-size="11">vendor feed</text>
+
+        <rect x="10" y="104" width="120" height="36" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="70" y="126" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" fill="#9AA0AC">shopify state</text>
+
+        <rect x="210" y="60" width="140" height="40" rx="6" fill="#1C1F26" stroke="#5F6470"/>
+        <text x="280" y="84" text-anchor="middle" fill="#EDEEF0" font-family="Space Grotesk, sans-serif" font-size="11">diff + transform</text>
+
+        <rect x="430" y="10" width="120" height="32" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="490" y="30" text-anchor="middle" fill="#9AA0AC" font-family="JetBrains Mono, monospace" font-size="10">sub-workflow</text>
+        <rect x="430" y="64" width="120" height="32" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="490" y="84" text-anchor="middle" fill="#9AA0AC" font-family="JetBrains Mono, monospace" font-size="10">sub-workflow</text>
+        <rect x="430" y="118" width="120" height="32" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="490" y="138" text-anchor="middle" fill="#9AA0AC" font-family="JetBrains Mono, monospace" font-size="10">sub-workflow</text>
+
+        <rect x="610" y="60" width="80" height="40" rx="6" fill="#1C1F26" stroke="#5F6470"/>
+        <text x="650" y="84" text-anchor="middle" fill="#EDEEF0" font-family="Space Grotesk, sans-serif" font-size="11">upload</text>
+      </svg>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">GraphQL <code>productSet</code> mutation, batched and rate-limit aware</p>
+
+      <p>Built entirely in n8n, orchestrating 114+ workflows across 5 vendor integrations. The core pattern, repeated per vendor:</p>
+      <ul>
+        <li><strong style="color: var(--text-primary);">Product create/update</strong> — pull current Shopify state, fetch the fresh vendor feed, diff the two, transform vendor data into Shopify's schema, then fan out to parallel preprocessing sub-workflows before merging and uploading via Shopify's GraphQL <code>productSet</code> mutation.</li>
+        <li><strong style="color: var(--text-primary);">Price &amp; stock sync</strong> — same diff-and-update pattern, running hourly.</li>
+        <li><strong style="color: var(--text-primary);">Product sync</strong> — full product create/update cycle, running twice daily.</li>
+        <li><strong style="color: var(--text-primary);">Order + cancellation APIs</strong> — custom endpoints for 2 vendors to push orders and cancellations directly into their systems, closing the loop beyond just inventory.</li>
+      </ul>
+      <p>A decision worth naming: batching and pacing the Shopify GraphQL upload with explicit wait/retry logic to handle rate limits — a detail that's easy to skip in a demo but breaks production sync at vendor scale.</p>
+
+      <h3>Why n8n</h3>
+      <p>Chosen for delivery speed and native webhook/API handling across 5 heterogeneous vendor feeds, without hand-rolling integration boilerplate for each one.</p>
+
+      <h3>Stack</h3>
+      <div class="stack-line">
+        <span class="tag">n8n</span>
+        <span class="tag">Shopify GraphQL API</span>
+        <span class="tag">PostgreSQL</span>
+      </div>
+
+      <h3>Outcome</h3>
+      <p>Eliminated the 0-stock-selling problem by keeping product, price, and stock data current across all 5 vendors — critical in a drop shipping model where inventory truth lives with someone else.</p>
+    </div>
+
+  </div>
+</Layout>

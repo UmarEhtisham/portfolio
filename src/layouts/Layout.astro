@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Muhammad Umar Ehtisham Mian — Agentic AI Engineer building toward AI systems architecture." } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><circle cx=%224%22 cy=%2212%22 r=%222.5%22 fill=%22%235F6470%22/><circle cx=%2212%22 cy=%2212%22 r=%223%22 fill=%22%23E8A33D%22/><circle cx=%2220%22 cy=%2212%22 r=%223.5%22 fill=%22%233FA796%22/><line x1=%226.5%22 y1=%2212%22 x2=%2217%22 y2=%2212%22 stroke=%22%233A3D45%22 stroke-width=%221%22/></svg>" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <div class="wrap">
+      <nav class="topnav">
+        <a href="/" class="brand">umarehtisham.com</a>
+        <div class="links">
+          <a href="/#arc">arc</a>
+          <a href="/#currently">currently</a>
+          <a href="/#skills">skills</a>
+          <a href="/#about">about</a>
+          <a href="/#career">career</a>
+          <a href="/#projects">projects</a>
+          <a href="/#certifications">certifications</a>
+          <a href="/#contact">contact</a>
+        </div>
+      </nav>
+    </div>
+    <slot />
+    <footer>
+      <div class="wrap">
+        <p>
+          <a href="mailto:umareht@gmail.com">umareht@gmail.com</a> &nbsp;·&nbsp;
+          <a href="https://www.linkedin.com/in/umarehtisham/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;·&nbsp;
+          <a href="https://github.com/umarehtisham" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp;
+          <a href="/resume.pdf" target="_blank" rel="noopener" style="color: var(--amber);">Download resume</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

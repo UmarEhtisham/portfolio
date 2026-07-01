@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="HSY — Multi-agent AI Fashion Consultant | Umar Ehtisham">
+  <div class="wrap" style="max-width: 680px;">
+
+    <a href="/#projects" class="back-link" style="margin-top: 24px;">&larr; Back to projects</a>
+
+    <div class="project-header">
+      <p class="eyebrow" style="color: var(--amber);">Agents · n8n · MCP</p>
+      <h1>Multi-agent AI fashion consultant</h1>
+      <p class="client">HSY (theworldofhsy.com) — a niche high-end fashion label</p>
+    </div>
+
+    <div class="project-body">
+      <h3>The problem</h3>
+      <p>HSY's clientele expects a personal, concierge-level shopping experience — not a generic chatbot. The brand needed a WhatsApp-based assistant that could guide high-value customers through product discovery and decision-making in both text and voice, while preserving the option to hand off to a human whenever the interaction needed a personal touch.</p>
+
+      <h3>Architecture</h3>
+      <svg width="100%" height="220" viewBox="0 0 700 220" role="img" aria-label="Flow diagram: WhatsApp message passes through guardrails to the Fashion Consultant orchestrator agent, which calls a Product Specialist agent above it using a Shopify MCP server, can hand off to a human via Chatwoot below it, then produces a response through a Formatter agent">
+        <line x1="100" y1="110" x2="180" y2="110" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="290" y1="110" x2="370" y2="110" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="520" y1="110" x2="600" y2="110" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="445" y1="86" x2="445" y2="58" stroke="#3A3D45" stroke-width="1"/>
+        <line x1="445" y1="134" x2="445" y2="166" stroke="#4A3A1E" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <rect x="10" y="92" width="90" height="36" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="55" y="114" text-anchor="middle" fill="#9AA0AC" font-family="JetBrains Mono, monospace" font-size="10">WhatsApp</text>
+
+        <rect x="180" y="92" width="110" height="36" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="235" y="114" text-anchor="middle" fill="#9AA0AC" font-family="Space Grotesk, sans-serif" font-size="11">guardrails</text>
+
+        <rect x="370" y="86" width="150" height="48" rx="6" fill="#1C1F26" stroke="#E8A33D"/>
+        <text x="445" y="105" text-anchor="middle" fill="#E8A33D" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="500">fashion</text>
+        <text x="445" y="120" text-anchor="middle" fill="#E8A33D" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="500">consultant</text>
+
+        <rect x="380" y="14" width="130" height="44" rx="6" fill="#1C1F26" stroke="#E8A33D"/>
+        <text x="445" y="32" text-anchor="middle" fill="#EDEEF0" font-family="Space Grotesk, sans-serif" font-size="10">product</text>
+        <text x="445" y="46" text-anchor="middle" fill="#EDEEF0" font-family="Space Grotesk, sans-serif" font-size="10">specialist</text>
+
+        <rect x="380" y="166" width="130" height="40" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="445" y="190" text-anchor="middle" fill="#9AA0AC" font-family="JetBrains Mono, monospace" font-size="10">chatwoot handoff</text>
+
+        <rect x="600" y="92" width="90" height="36" rx="6" fill="#1C1F26" stroke="#262A31"/>
+        <text x="645" y="114" text-anchor="middle" fill="#9AA0AC" font-family="Space Grotesk, sans-serif" font-size="11">formatter</text>
+      </svg>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">Product Specialist connects to a Shopify MCP server; dashed line is the Chatwoot human handoff path</p>
+
+      <p>A multi-agent WhatsApp chatbot built in n8n — three coordinating agents plus a guardrail layer, running behind Meta's WhatsApp Business API:</p>
+      <ul>
+        <li><strong style="color: var(--text-primary);">Guardrails</strong> — an OpenAI-based check that validates incoming messages before they reach the agent layer.</li>
+        <li><strong style="color: var(--text-primary);">Fashion Consultant</strong> (orchestrator agent) — holds the conversation, session state, and customer context; guides customers through product discovery, shows product details, images, pricing, and links, and can add selected items directly to cart — all within WhatsApp.</li>
+        <li><strong style="color: var(--text-primary);">Product Specialist</strong> (sub-agent) — connects to a Shopify MCP server for live product search and selection, keeping product logic isolated from conversation logic.</li>
+        <li><strong style="color: var(--text-primary);">Formatter</strong> (output agent) — shapes the final response into text, image, or audio depending on context, using a structured output parser.</li>
+      </ul>
+
+      <h3>Voice</h3>
+      <p>Inbound voice messages are transcribed via Whisper; outbound replies can be sent back as generated audio via TTS — so a customer can genuinely speak to the consultant and hear a spoken reply, not just read text.</p>
+
+      <h3>Memory</h3>
+      <p>Short-term memory holds the active conversation in Postgres. Once a conversation concludes, it's consolidated into long-term memory and cleared from short-term storage — keeping session state lean while preserving customer history. Returning customers are recognized by phone number, so a client who messages again weeks later is greeted with context, not a blank slate.</p>
+
+      <h3>Human handoff</h3>
+      <p>If a customer asks to speak with a human, the flow hands the conversation to Chatwoot. Once the human resolves the query, control returns to the bot automatically — no manual re-trigger — and the bot resumes with full context intact.</p>
+
+      <h3>Stack</h3>
+      <div class="stack-line">
+        <span class="tag">n8n</span>
+        <span class="tag">OpenAI (chat + Whisper STT + TTS)</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Shopify MCP server</span>
+        <span class="tag">Chatwoot</span>
+        <span class="tag">Meta WhatsApp Business API</span>
+        <span class="tag">Cloudinary</span>
+      </div>
+
+      <h3>Outcome</h3>
+      <p>Delivered a consultant experience that mirrors in-store service — product discovery with images, pricing, and links, cart-ready product selection, natural voice interaction, memory of past visits, and a clean, automatic escalation path to a human whenever the moment calls for one.</p>
+    </div>
+
+  </div>
+</Layout>
