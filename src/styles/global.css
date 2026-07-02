@@ -222,12 +222,27 @@ p { color: var(--text-secondary); }
 
 .card-link .stack {
   flex-shrink: 0;
-}
-
-.card-link .stack {
   font-family: var(--font-mono);
   font-size: 12px;
   white-space: nowrap;
+}
+
+.card-end {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.card-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.card-link:hover .card-arrow {
+  transform: translateX(3px);
+  color: var(--amber);
 }
 
 .stage-orchestration { border-color: var(--border); }
@@ -335,7 +350,6 @@ nav.topnav .links a:hover { color: var(--text-primary); }
 
 @media (max-width: 640px) {
   nav.topnav .links { display: none; }
-  h2 { font-size: 19px; }
   section { padding: 48px 0; }
   .card-link { flex-direction: column; align-items: flex-start; }
 }
@@ -418,7 +432,7 @@ nav.topnav .links a:hover { color: var(--text-primary); }
 
 .hero-stat .label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-muted);
   margin-top: 4px;
 }
@@ -479,7 +493,7 @@ nav.topnav .links a:hover { color: var(--text-primary); }
 
 .currently-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--amber);
   letter-spacing: 1px;
   margin: 0 0 8px;
@@ -508,6 +522,12 @@ nav.topnav .links a:hover { color: var(--text-primary); }
   padding: 14px 16px;
 }
 
+.cert-icon {
+  color: var(--amber);
+  margin-bottom: 8px;
+  display: block;
+}
+
 .cert-title {
   font-family: var(--font-display);
   font-size: 14px;
@@ -518,7 +538,7 @@ nav.topnav .links a:hover { color: var(--text-primary); }
 
 .cert-issuer {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-muted);
   margin: 0;
 }
