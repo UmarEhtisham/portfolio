@@ -456,7 +456,8 @@ nav.topnav .links a:hover { color: var(--text-primary); }
   justify-content: center;
   margin: 0 auto 24px;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  border: 1.5px solid var(--bg);
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .avatar-placeholder img {
@@ -465,16 +466,8 @@ nav.topnav .links a:hover { color: var(--text-primary); }
   object-fit: cover;
 }
 
-.avatar-placeholder::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, transparent 52%, var(--bg) 88%);
-  pointer-events: none;
-}
-
 .avatar-placeholder:hover {
+  border-color: var(--amber);
   transform: scale(1.03);
 }
 
