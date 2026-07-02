@@ -26,11 +26,7 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="hero-visual" aria-hidden="true">
         <div class="avatar-placeholder">
-          <svg viewBox="0 0 84 84" width="84" height="84">
-            <circle cx="42" cy="42" r="42" fill="#1C1F26"/>
-            <circle cx="42" cy="34" r="14" fill="#3A3D45"/>
-            <path d="M14 78c0-16 12-26 28-26s28 10 28 26" fill="#3A3D45"/>
-          </svg>
+          <img src="/avatar.png" alt="Muhammad Umar Ehtisham" width="220" height="220" />
         </div>
         <svg width="220" height="140" viewBox="0 0 220 140" style="margin-top: 24px;">
           <line x1="20" y1="70" x2="110" y2="30" stroke="#262A31" stroke-width="1"/>
@@ -281,10 +277,11 @@ import Layout from '../layouts/Layout.astro';
       <h2 style="max-width: 480px; margin: 0 auto 12px; font-size: 26px;">Got an interesting problem? Let's talk about it.</h2>
       <p style="max-width: 440px; margin: 0 auto 32px; font-size: 14px;">Send a message directly, or reach out on email or LinkedIn.</p>
 
-      <form action="https://formsubmit.co/umareht@gmail.com" method="POST" class="contact-form">
+      <form action="https://formsubmit.co/umareht@gmail.com" method="POST" class="contact-form" id="contact-form">
         <input type="hidden" name="_subject" value="New message from umarehtisham.com" />
         <input type="hidden" name="_captcha" value="false" />
         <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_next" value="" />
 
         <div class="form-row">
           <input type="text" name="name" placeholder="Your name" required />
@@ -355,8 +352,16 @@ import Layout from '../layouts/Layout.astro';
 
   initHeroGlow();
   initReveal();
+
+  const nextInput = document.querySelector('#contact-form input[name="_next"]');
+  if (nextInput) {
+    nextInput.value = window.location.origin + '/thanks';
+  }
+
   document.addEventListener('astro:page-load', () => {
     initReveal();
+    const el = document.querySelector('#contact-form input[name="_next"]');
+    if (el) el.value = window.location.origin + '/thanks';
   });
 </script>
 

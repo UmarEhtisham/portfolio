@@ -9,7 +9,7 @@
 
   --text-primary: #EDEEF0;
   --text-secondary: #9AA0AC;
-  --text-muted: #6B7080;
+  --text-muted: #838A96;
 
   --amber: #E8A33D;
   --amber-dim: #4A3A1E;
@@ -446,8 +446,8 @@ nav.topnav .links a:hover { color: var(--text-primary); }
 }
 
 .avatar-placeholder {
-  width: 84px;
-  height: 84px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -457,6 +457,12 @@ nav.topnav .links a:hover { color: var(--text-primary); }
   margin: 0 auto 24px;
   overflow: hidden;
   transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.avatar-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .avatar-placeholder:hover {
@@ -527,7 +533,7 @@ nav.topnav .links a:hover { color: var(--text-primary); }
 
 @media (max-width: 640px) {
   .currently-grid { grid-template-columns: 1fr; }
-  .avatar-placeholder { width: 68px; height: 68px; }
+  .avatar-placeholder { width: 160px; height: 160px; }
 }
 
 .contact-form {
