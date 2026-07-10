@@ -1,43 +1,45 @@
-# Astro Starter Kit: Minimal
+# Portfolio — Muhammad Umar Ehtisham Mian
 
-```sh
-npm create astro@latest -- --template minimal
+Personal portfolio site built with Astro. Live at [umarehtisham.vercel.app](https://umarehtisham.vercel.app).
+
+## Stack
+
+- Astro 7 (static, no UI framework)
+- Vanilla CSS (`src/styles/global.css`)
+- `astro:transitions` (`ClientRouter`) for page transitions
+
+## Structure
+
+```
+src/
+├── layouts/
+│   └── Layout.astro          # shared shell: nav, meta, transitions
+├── pages/
+│   ├── index.astro           # hero, arc, currently, skills, about, career, projects, certifications, contact
+│   ├── thanks.astro          # post-contact-form confirmation
+│   └── projects/
+│       ├── hsy.astro
+│       ├── netdressed.astro
+│       └── digital-marketing-ai-worker.astro
+public/
+├── avatar.png / avatar.jpg
+├── resume.pdf
+└── favicon.ico / favicon.svg
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command           | Action                                   |
+| ------------------ | ----------------------------------------- |
+| `npm install`       | Install dependencies                      |
+| `npm run dev`       | Start local dev server (`localhost:4321`) |
+| `npm run build`     | Build production site to `./dist/`        |
+| `npm run preview`   | Preview the production build locally      |
 
-Inside of your Astro project, you'll see the following folders and files:
+Requires Node >= 22.12.0.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Notes
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- No CMS/content collections — page content is hand-authored directly in `.astro` files.
+- Update resume by replacing `public/resume.pdf`.
+- Nav anchors (`arc`, `currently`, `skills`, `about`, `career`, `projects`, `certifications`, `contact`) must match section `id`s in `index.astro` — keep in sync if sections are renamed.
